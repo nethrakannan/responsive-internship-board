@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>InternConnect | Internship Board</title>
+
+  <meta
+    name="description"
+    content="Explore and filter internship opportunities with InternConnect."
+  >
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="#" class="logo" aria-label="InternConnect home">
+      InternConnect
+    </a>
+
+    <nav aria-label="Main navigation">
+      <a href="#internships">Explore Internships</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <p class="eyebrow">YOUR CAREER STARTS HERE</p>
+
+      <h1>Find your next internship.</h1>
+
+      <p class="hero-description">
+        Discover opportunities, explore new skills,
+        and take your first step towards your dream career.
+      </p>
+
+      <form id="search-form" class="search-form" role="search">
+        <label for="search-input">Search internships</label>
+
+        <div class="search-row">
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search by title, skill, or location"
+          >
+
+          <button type="submit">Search</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="internships" class="internship-section">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OPPORTUNITIES</p>
+          <h2>Explore internships</h2>
+        </div>
+
+        <p id="result-count" aria-live="polite">
+          Loading internships...
+        </p>
+      </div>
+
+      <div class="filters">
+
+        <div class="filter-group">
+          <label for="domain-filter">Domain</label>
+
+          <select id="domain-filter">
+            <option value="all">All domains</option>
+            <option value="Full Stack Development">
+              Full Stack Development
+            </option>
+            <option value="UI/UX">UI/UX</option>
+            <option value="Data Analytics">Data Analytics</option>
+            <option value="Cyber Security">Cyber Security</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="mode-filter">Work mode</label>
+
+          <select id="mode-filter">
+            <option value="all">All work modes</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-site">On-site</option>
+          </select>
+        </div>
+
+        <button id="reset-button" class="reset-button" type="button">
+          Reset filters
+        </button>
+
+      </div>
+
+      <p id="error-message" class="error-message" role="alert"></p>
+
+      <div
+        id="internship-list"
+        class="internship-grid"
+        aria-label="Internship listings"
+      ></div>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <h3>No internships found</h3>
+
+        <p>
+          Try changing your search or selecting a different domain.
+        </p>
+
+        <button id="empty-reset" type="button">
+          Clear filters
+        </button>
+      </div>
+
+    </section>
+
+    <section id="about" class="about-section">
+      <h2>Start building your future</h2>
+
+      <p>
+        InternConnect is a student-friendly internship discovery
+        interface built using HTML, CSS, and JavaScript.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 InternConnect. Built for learning.</p>
+  </footer>
+
+</body>
+</html>
