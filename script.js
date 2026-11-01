@@ -17,26 +17,40 @@ const errorMessage = document.getElementById("error-message");
 
 let internships = [];
 
-// Load internship data
+// Load internship data from the API
 async function loadInternships() {
   try {
     resultCount.textContent = "Loading internships...";
+    errorMessage.textContent = "";
 
-    const response = await fetch("internships.json");
+    const response = await fetch(
+      "https://internship-records-api-wn66.onrender.com/api/internships"
+    );
 
     if (!response.ok) {
       throw new Error("Unable to load internship data.");
     }
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if (!Array.isArray(data.internships)) {
+    if (!result.success || !Array.isArray(result.data)) {
       throw new Error("Invalid internship data.");
     }
 
-    internships = data.internships;
-
-    errorMessage.textContent = "";
+    internships = result.data.map((item) => ({
+      id: item.id,
+      title: item.role,
+      company: item.company,
+      domain: item.role,
+      location: item.location,
+      mode: item.location.toLowerCase() === "remote"
+        ? "Remote"
+        : "On-site",
+      skills: [],
+      description: `${item.role} internship at ${item.company}. Duration: ${item.duration}.`,
+      openings: 1,
+      stipend: item.stipend
+    }));
 
     renderInternships();
 
@@ -70,6 +84,7 @@ function renderInternships() {
 
     const searchableText = [
       internship.title,
+      internship.company,
       internship.domain,
       internship.location,
       ...internship.skills
@@ -112,8 +127,14 @@ function renderInternships() {
     const title = document.createElement("h3");
     title.textContent = internship.title;
 
+    const company = document.createElement("p");
+    company.textContent = `Company: ${internship.company}`;
+
     const location = document.createElement("p");
     location.textContent = `Location: ${internship.location}`;
+
+    const stipend = document.createElement("p");
+    stipend.textContent = `Stipend: ₹${internship.stipend}/month`;
 
     const skillsContainer = document.createElement("div");
     skillsContainer.className = "skills";
@@ -145,7 +166,7 @@ function renderInternships() {
     footer.className = "card-footer";
 
     const internshipId = document.createElement("span");
-    internshipId.textContent = internship.id;
+    internshipId.textContent = `ID: ${internship.id}`;
 
     const applyButton = document.createElement("button");
     applyButton.type = "button";
@@ -153,8 +174,8 @@ function renderInternships() {
 
     applyButton.addEventListener("click", () => {
       alert(
-        `Application demo for ${internship.title}.\n` +
-        "This internship board uses fictional sample records."
+        `Application demo for ${internship.title} at ${internship.company}.\n` +
+        "Application form integration will be added next."
       );
     });
 
@@ -163,7 +184,9 @@ function renderInternships() {
     card.append(
       cardTop,
       title,
+      company,
       location,
+      stipend,
       skillsContainer,
       details,
       openings,
