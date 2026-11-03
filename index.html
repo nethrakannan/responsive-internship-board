@@ -1,267 +1,692 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InternConnect | Secure Internship Board</title>
+
     <style>
-        /* Base styles matching InternConnect theme */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
+            background: #f8f9fa;
             color: #333;
         }
+
         header {
-            background-color: #ffffff;
+            background: white;
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #eaeaea;
         }
+
         .logo {
             font-size: 24px;
             font-weight: bold;
             color: #0070f3;
         }
+
         nav a {
             margin-left: 20px;
             text-decoration: none;
             color: #666;
         }
+
         .hero {
             text-align: center;
             padding: 60px 20px;
-            background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 100%);
+            background: linear-gradient(180deg, white, #f3f4f6);
         }
+
         .hero h1 {
             font-size: 42px;
             margin-bottom: 10px;
         }
+
         .main-container {
             max-width: 1100px;
-            margin: 0 auto;
+            margin: auto;
             padding: 40px 20px;
             display: grid;
             grid-template-columns: 250px 1fr;
             gap: 30px;
         }
-        .filters {
+
+        .filters,
+        .listings-section,
+        .secure-form-box {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .filters {
             height: fit-content;
         }
-        .filters h3 { margin-top: 0; }
-        .filter-group { margin-bottom: 15px; }
-        .filter-group label { display: block; margin-bottom: 5px; font-weight: 500; }
-        .filter-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .listings-section {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+        .filter-group {
+            margin-bottom: 18px;
         }
-        /* Secure Application Form Box Styling */
-        .secure-form-box {
-            grid-column: 1 / -1;
-            max-width: 500px;
-            margin: 40px auto 0 auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            border: 2px solid #eaeaea;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        }
-        .secure-form-box h2 {
-            margin-top: 0;
-            color: #0070f3;
-            font-size: 22px;
-            border-bottom: 2px solid #f3f4f6;
-            padding-bottom: 10px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
+
+        .filter-group label,
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
+            margin-bottom: 7px;
             font-weight: 600;
-            color: #444;
         }
-        .form-group input {
+
+        select,
+        input,
+        textarea {
             width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
+            padding: 11px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.2s;
+            font: inherit;
         }
-        .form-group input:focus {
+
+        select:focus,
+        input:focus,
+        textarea:focus {
             outline: none;
             border-color: #0070f3;
         }
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #0070f3;
+
+        .job-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .job-card h3 {
+            margin-top: 0;
+            color: #0070f3;
+        }
+
+        .job-meta {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .button {
+            background: #0070f3;
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 11px 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            margin-top: 10px;
         }
-        .submit-btn:disabled {
-            background-color: #a0aec0;
+
+        .button:hover {
+            background: #0058c7;
+        }
+
+        .button:disabled {
+            background: #9ca3af;
             cursor: not-allowed;
         }
+
+        .secondary-button {
+            background: #eef4ff;
+            color: #0070f3;
+            margin-left: 8px;
+        }
+
+        .secure-form-box {
+            grid-column: 1 / -1;
+            max-width: 600px;
+            width: 100%;
+            margin: 10px auto 0;
+        }
+
+        .secure-form-box h2 {
+            color: #0070f3;
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
         .status-msg {
+            display: none;
             margin-top: 15px;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 14px;
-            display: none;
         }
+
+        .success {
+            display: block;
+            background: #e8f7ed;
+            color: #176b35;
+        }
+
+        .error {
+            display: block;
+            background: #fff0f0;
+            color: #b42318;
+        }
+
+        .info {
+            color: #666;
+            font-style: italic;
+        }
+
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 35px;
             color: #888;
-            font-size: 14px;
             border-top: 1px solid #eaeaea;
-            margin-top: 60px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 750px) {
+            header {
+                padding: 18px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 20px 14px;
+            }
+
+            .listings-section,
+            .filters,
+            .secure-form-box {
+                padding: 20px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo">InternConnect</div>
-        <nav>
-            <a href="#">Explore Internships</a>
-            <a href="#">About</a>
-        </nav>
-    </header>
+<header>
+    <div class="logo">InternConnect</div>
+    <nav>
+        <a href="#internships">Explore Internships</a>
+        <a href="#application">Apply</a>
+    </nav>
+</header>
 
-    <section class="hero">
-        <h1>Find your next internship.</h1>
-        <p>Discover opportunities, explore new skills, and take your first step towards your dream career.</p>
+<section class="hero">
+    <h1>Find your next internship.</h1>
+    <p>
+        Discover opportunities, explore new skills, and take your first
+        step towards your dream career.
+    </p>
+</section>
+
+<main class="main-container">
+
+    <aside class="filters">
+        <h3>Filter Options</h3>
+
+        <div class="filter-group">
+            <label for="domainFilter">Domain</label>
+            <select id="domainFilter">
+                <option value="all">All domains</option>
+                <option value="fullstack">Full Stack Development</option>
+                <option value="uiux">UI/UX</option>
+                <option value="analytics">Data Analytics</option>
+                <option value="cyber">Cyber Security</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="modeFilter">Work Mode</label>
+            <select id="modeFilter">
+                <option value="all">All work modes</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="onsite">On-site</option>
+            </select>
+        </div>
+    </aside>
+
+    <section class="listings-section" id="internships">
+        <h2>Explore internships</h2>
+
+        <p id="loadingState" class="info">
+            Loading internships...
+        </p>
+
+        <p id="noResults" class="info" hidden>
+            No internships found matching your filters.
+        </p>
+
+        <p id="errorMessage" class="error" hidden></p>
+
+        <div id="listingsContainer"></div>
     </section>
 
-    <main class="main-container">
-        <!-- Sidebar Filters -->
-        <aside class="filters">
-            <h3>Filter Options</h3>
-            <div class="filter-group">
-                <label>Domain</label>
-                <select id="domainFilter">
-                    <option value="all">All domains</option>
-                    <option value="fullstack">Full Stack Development</option>
-                    <option value="uiux">UI/UX</option>
-                    <option value="analytics">Data Analytics</option>
-                    <option value="cyber">Cyber Security</option>
-                </select>
+    <section class="secure-form-box" id="application">
+        <h2>Secure Application Form</h2>
+
+        <p id="selectedInternship">
+            Select an internship by clicking Apply on its card.
+        </p>
+
+        <form id="secureInternshipForm">
+
+            <div class="form-group">
+                <label for="applicantName">Full Name</label>
+                <input
+                    type="text"
+                    id="applicantName"
+                    minlength="2"
+                    maxlength="100"
+                    autocomplete="name"
+                    required
+                >
             </div>
-            <div class="filter-group">
-                <label>Work Mode</label>
-                <select id="modeFilter">
-                    <option value="all">All work modes</option>
-                    <option value="remote">Remote</option>
-                    <option value="hybrid">Hybrid</option>
-                    <option value="onsite">On-site</option>
-                </select>
+
+            <div class="form-group">
+                <label for="applicantEmail">Email Address</label>
+                <input
+                    type="email"
+                    id="applicantEmail"
+                    autocomplete="email"
+                    required
+                >
             </div>
-        </aside>
 
-        <!-- Internship Listings -->
-        <section class="listings-section">
-            <h2>Explore internships</h2>
-            <div id="loadingState" style="color: #666; font-style: italic;">Loading internships...</div>
-            <div id="noResults" style="display:none; color: #e53e3e;">No internships found matching filters.</div>
-            <div id="listingsContainer"></div>
-        </section>
+            <div class="form-group">
+                <label for="applicantPhone">Phone Number</label>
+                <input
+                    type="tel"
+                    id="applicantPhone"
+                    inputmode="numeric"
+                    pattern="[0-9]{10,15}"
+                    minlength="10"
+                    maxlength="15"
+                    autocomplete="tel"
+                    required
+                >
+            </div>
 
-        <!-- SECURE APPLICATION FORM COMPONENT (Your exact task requirements) -->
-        <section class="secure-form-box">
-            <h2>Secure Application Form</h2>
-            <form id="secureInternshipForm">
-                <div class="form-group">
-                    <label for="applicantName">Full Name</label>
-                    <input type="text" id="applicantName" placeholder="John Doe" required>
-                </div>
-                <div class="form-group">
-                    <label for="applicantEmail">Email Address</label>
-                    <input type="email" id="applicantEmail" placeholder="johndoe@example.com" required>
-                </div>
-                <button type="submit" id="formSubmitButton" class="submit-btn">Submit Application</button>
-            </form>
-            <div id="statusBox" class="status-msg"></div>
-        </section>
-    </main>
+            <div class="form-group">
+                <label for="applicantReason">
+                    Why are you applying?
+                </label>
+                <textarea
+                    id="applicantReason"
+                    minlength="10"
+                    maxlength="1000"
+                    required
+                ></textarea>
+            </div>
 
-    <footer>
-        © 2026 InternConnect. Secure Application Sandbox System Integrated.
-    </footer>
+            <button
+                type="submit"
+                id="formSubmitButton"
+                class="button"
+            >
+                Submit Application
+            </button>
 
-    <script>
-        // --- 1. EXISTING FRONTEND INTERNSHIP BOARD FUNCTIONALITY ---
-        const sampleJobs = [
-            { title: "Junior Full Stack Developer", domain: "fullstack", mode: "remote" },
-            { title: "UI/UX Design Intern", domain: "uiux", mode: "hybrid" },
-            { title: "Data Analyst Assistant", domain: "analytics", mode: "onsite" }
-        ];
+        </form>
 
-        function renderJobs() {
-            const container = document.getElementById('listingsContainer');
-            const loading = document.getElementById('loadingState');
-            loading.style.display = 'none';
-            container.innerHTML = '';
-            
-            sampleJobs.forEach(job => {
-                const jobEl = document.createElement('div');
-                jobEl.style.padding = '15px';
-                jobEl.style.borderBottom = '1px solid #eee';
-                jobEl.innerHTML = `<strong>${job.title}</strong> <br> <span style="font-size:12px; color:#777;">${job.domain.toUpperCase()} | ${job.mode.toUpperCase()}</span>`;
-                container.appendChild(jobEl);
-            });
+        <div id="statusBox" class="status-msg" role="status"></div>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 InternConnect. Your career starts here.
+</footer>
+
+<script>
+    const API_URL =
+        "https://internship-records-api-wn66.onrender.com/api";
+
+    let internships = [];
+    let selectedInternshipId = null;
+
+    const listingsContainer =
+        document.getElementById("listingsContainer");
+
+    const loadingState =
+        document.getElementById("loadingState");
+
+    const noResults =
+        document.getElementById("noResults");
+
+    const errorMessage =
+        document.getElementById("errorMessage");
+
+    const domainFilter =
+        document.getElementById("domainFilter");
+
+    const modeFilter =
+        document.getElementById("modeFilter");
+
+    const form =
+        document.getElementById("secureInternshipForm");
+
+    const submitButton =
+        document.getElementById("formSubmitButton");
+
+    const statusBox =
+        document.getElementById("statusBox");
+
+    const selectedInternship =
+        document.getElementById("selectedInternship");
+
+
+    // Convert the API record into a domain category.
+    function getDomain(job) {
+        const role = job.role.toLowerCase();
+
+        if (role.includes("data") || role.includes("analyst")) {
+            return "analytics";
         }
-        setTimeout(renderJobs, 500); // Simulate initial payload fetch layer
 
-        // --- 2. THE EMBEDDED SECURE SERVER SANDBOX LOGIC ---
-        // Mimics strict server-side logic parameters inside an isolated engine context.
-        const SecureServerModule = {
-            rateLimits: new Map(),
+        if (
+            role.includes("ui") ||
+            role.includes("ux") ||
+            role.includes("design")
+        ) {
+            return "uiux";
+        }
 
-            processSecurePayload: async (data, simulatedIp) => {
-                const now = Date.now();
-                
-                // A. Server Rate Limiting Filter (Status 429)
-                if (SecureServerModule.rateLimits.has(simulatedIp) && (now - SecureServerModule.rateLimits.get(simulatedIp) < 4000)) {
-                    return { status: 429, error: "Rate Limit Tripped: Too many application posts. Please wait 4 seconds." };
-                }
-                SecureServerModule.rateLimits.set(simulatedIp, now);
+        if (
+            role.includes("cyber") ||
+            role.includes("security")
+        ) {
+            return "cyber";
+        }
 
-                // B. Server-Side Data Field Constraints Verification (Status 400)
-                if (!data.name || data.name.trim().length < 2) {
-                    return { status: 400, error: "Server Validation Denied: Name parameter length too short." };
-                }
-                if (!data.email || !data.email.includes('@')) {
-                    return { status: 400, error: "Server Validation Denied: Email structure validation broken." };
-                }
+        return "fullstack";
+    }
 
-                // C. Parameterized Query Simulation 
-                // Blocks SQL script structures safely via sanitation mapping arrays.
-                const sanitizedRecord = [data.name.replace(/['"`;\-\-]/g, ''), data.email];
-                console.log("Data committed safely via Parameterized arrays:", sanitizedRecord);
 
-                return { status: 200, message: "Application verified and stored by Server-Side Environment successfully!" };
+    // Convert location into a work mode.
+    function getWorkMode(job) {
+        return job.location.toLowerCase() === "remote"
+            ? "remote"
+            : "onsite";
+    }
+
+
+    // Load internships from the real backend.
+    async function loadInternships() {
+        loadingState.hidden = false;
+        errorMessage.hidden = true;
+
+        try {
+            const response = await fetch(
+                `${API_URL}/internships`
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not load internships.");
             }
+
+            const result = await response.json();
+
+            if (!result.success || !Array.isArray(result.data)) {
+                throw new Error("Invalid internship data received.");
+            }
+
+            internships = result.data;
+
+            loadingState.hidden = true;
+
+            renderInternships();
+
+        } catch (error) {
+            loadingState.hidden = true;
+            errorMessage.textContent =
+                "Unable to load internships. Please refresh the page.";
+            errorMessage.hidden = false;
+
+            console.error("Internship loading error:", error);
+        }
+    }
+
+
+    // Display internship cards.
+    function renderInternships() {
+        listingsContainer.innerHTML = "";
+
+        const searchText = "";
+
+        const selectedDomain = domainFilter.value;
+        const selectedMode = modeFilter.value;
+
+        const filteredJobs = internships.filter(job => {
+            const domain = getDomain(job);
+            const mode = getWorkMode(job);
+
+            const domainMatches =
+                selectedDomain === "all" ||
+                domain === selectedDomain;
+
+            const modeMatches =
+                selectedMode === "all" ||
+                mode === selectedMode;
+
+            const searchMatches =
+                job.role.toLowerCase().includes(searchText) ||
+                job.company.toLowerCase().includes(searchText);
+
+            return domainMatches && modeMatches && searchMatches;
+        });
+
+        noResults.hidden = filteredJobs.length !== 0;
+
+        filteredJobs.forEach(job => {
+            const card = document.createElement("article");
+            card.className = "job-card";
+
+            const title = document.createElement("h3");
+            title.textContent = job.role;
+
+            const company = document.createElement("p");
+            company.textContent = "Company: " + job.company;
+
+            const location = document.createElement("p");
+            location.textContent = "Location: " + job.location;
+
+            const stipend = document.createElement("p");
+            stipend.textContent =
+                "Stipend: ₹" + job.stipend + "/month";
+
+            const duration = document.createElement("p");
+            duration.textContent = "Duration: " + job.duration;
+
+            const details = document.createElement("p");
+            details.className = "job-meta";
+            details.textContent =
+                `${job.role} internship at ${job.company}. ` +
+                `Duration: ${job.duration}.`;
+
+            const viewButton = document.createElement("button");
+            viewButton.className = "button secondary-button";
+            viewButton.textContent = "View internship details";
+
+            viewButton.addEventListener("click", () => {
+                details.hidden = !details.hidden;
+            });
+
+            details.hidden = true;
+
+            const applyButton = document.createElement("button");
+            applyButton.className = "button";
+            applyButton.textContent = "Apply";
+
+            applyButton.addEventListener("click", () => {
+                selectedInternshipId = job.id;
+
+                selectedInternship.textContent =
+                    `Applying for ${job.role} at ${job.company}`;
+
+                document.getElementById("application").scrollIntoView({
+                    behavior: "smooth"
+                });
+
+                statusBox.className = "status-msg";
+                statusBox.textContent = "";
+            });
+
+            card.append(
+                title,
+                company,
+                location,
+                stipend,
+                duration,
+                viewButton,
+                details,
+                applyButton
+            );
+
+            listingsContainer.appendChild(card);
+        });
+    }
+
+
+    // Filter when the dropdowns change.
+    domainFilter.addEventListener("change", renderInternships);
+    modeFilter.addEventListener("change", renderInternships);
+
+
+    // Submit application to the actual backend.
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (!selectedInternshipId) {
+            statusBox.className = "status-msg error";
+            statusBox.textContent =
+                "Please click Apply on an internship first.";
+            return;
+        }
+
+        const name =
+            document.getElementById("applicantName").value.trim();
+
+        const email =
+            document.getElementById("applicantEmail").value.trim();
+
+        const phone =
+            document.getElementById("applicantPhone").value.trim();
+
+        const reason =
+            document.getElementById("applicantReason").value.trim();
+
+        if (name.length < 2 || name.length > 100) {
+            statusBox.className = "status-msg error";
+            statusBox.textContent =
+                "Name must contain 2 to 100 characters.";
+            return;
+        }
+
+        if (!/^[0-9]{10,15}$/.test(phone)) {
+            statusBox.className = "status-msg error";
+            statusBox.textContent =
+                "Phone must contain 10 to 15 digits.";
+            return;
+        }
+
+        if (reason.length < 10 || reason.length > 1000) {
+            statusBox.className = "status-msg error";
+            statusBox.textContent =
+                "Reason must contain 10 to 1000 characters.";
+            return;
+        }
+
+        const applicationData = {
+            internshipId: selectedInternshipId,
+            name,
+            email,
+            phone,
+            reason
         };
 
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+
+        statusBox.className = "status-msg";
+        statusBox.textContent = "";
+
+        try {
+            const response = await fetch(
+                `${API_URL}/applications`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(applicationData)
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.error ||
+                    "Application could not be submitted."
+                );
+            }
+
+            statusBox.className = "status-msg success";
+            statusBox.textContent =
+                "Application submitted successfully!";
+
+            form.reset();
+
+            selectedInternshipId = null;
+
+            selectedInternship.textContent =
+                "Select another internship to apply again.";
+
+        } catch (error) {
+            statusBox.className = "status-msg error";
+            statusBox.textContent =
+                error.message ||
+                "Something went wrong. Please try again.";
+
+            console.error("Application error:", error);
+
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Application";
+        }
+    });
+
+
+    // Start the page.
+    loadInternships();
+</script>
+
+</body>
+</html>
